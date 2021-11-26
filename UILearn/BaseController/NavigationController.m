@@ -1,0 +1,70 @@
+//
+//  NavigationController.m
+//  UILearn
+//
+//  Created by apple on 2021/11/23.
+//
+
+#import "NavigationController.h"
+#import "XHomeController.h"
+
+@interface NavigationController ()
+
+@end
+
+@implementation NavigationController
+
+
++ (UIImage *)imageWithColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
+
++ (void)initialize
+{
+//appearance为设置所有UINavigationBar  如果不想 使用[UITabBarItem appearanceWhenContainedIn:self, nil];
+    
+//    XHomeController *home = [XHomeController new];
+//    NSArray *array = [NSArray arrayWithObjects:[home class], nil];
+//    UINavigationBar *navBar = [UINavigationBar appearanceWhenContainedInInstancesOfClasses:array];
+    
+    UINavigationBar *navBar = [UINavigationBar appearance];
+    
+//  设置导航条不透明
+    navBar.translucent = NO;
+    // 设置导航条按钮的文字颜色
+    NSMutableDictionary *titleAttr = [NSMutableDictionary dictionary];
+    titleAttr[NSForegroundColorAttributeName] = [UIColor whiteColor];
+    titleAttr[NSFontAttributeName]  = [UIFont systemFontOfSize:18];
+    
+    
+    [navBar setBackgroundImage:[NavigationController imageWithColor:[UIColor colorWithRed:0/255.0 green:145/255.0 blue:255/255.0 alpha:1]] forBarMetrics:UIBarMetricsDefault];
+    [navBar  setShadowImage:[UIImage new
+                             ]];
+    [navBar setTitleTextAttributes:titleAttr];
+
+navBar.tintColor  =[UIColor whiteColor];
+    
+}
+
+- (void)viewDidLoad {
+    
+    [super viewDidLoad];
+
+    self.navigationController.navigationBar.backgroundColor = [UIColor greenColor];
+
+}
+
+
+
+@end
