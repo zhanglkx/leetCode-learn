@@ -20,18 +20,19 @@
 s 仅由数字和英文字母组成
  */
 
-let temIndex = 0;
-let currentIndex = 0;
-let i = 0;
 let maxLen = 0, tempLen = 0;
+
+let left = right = 0;
 
 var longestPalindrome = function (s) {
 
+    if (s.length == 0 || s === null) {
+        return0
+    }
+
     for (let index = 0; index < s.length; index++) {
-        tempLen = 0;
-        if (index == 0) {
-            tempLen = 1;
-        } else {
+        tempLen = 1;
+        if (!index == 0) {
             tempLen = ijEqual(0, index, s);
             console.log(tempLen)
         }
@@ -57,3 +58,6 @@ function ijEqual(strLen, anchorPoint, str) {
 }
 console.log("最长回文子串")
 console.log(longestPalindrome("cbbbbbb"));
+/**
+ * 思路：采用左右指针，以for循环的index为锚点，先和左边计较，相同就左移一位，右边亦然，同时判断和左边，右边，以及左右两边是否相同，看同事能不能结合递归函数来实现
+ */
