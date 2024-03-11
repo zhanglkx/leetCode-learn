@@ -48,4 +48,34 @@ function listToTreeWithLevel(list, pid, level) {
 
 const result = listToTreeWithLevel(data, 0, 0);
 
-console.log(result);
+// console.log(result);
+
+function listToTree(arr) {
+  const result = [];
+  const map = new Map();
+  arr.forEach((item) => {
+    map.set(item.id, item);
+  });
+  console.log("1", map);
+
+  for (let item of arr) {
+    if (map.has(item.pid)) {
+      if (!map.get(item.pid).children) {
+        map.get(item.pid).children = [];
+      }
+      map.get(item.pid).children.push(item);
+    } else {
+      result.push(item);
+    }
+  }
+  return result;
+}
+const arr = [
+  { id: 1, pid: null, name: "1" },
+  { id: 2, pid: "-1", name: "1" },
+  { id: 11, pid: 1, name: "11" },
+  { id: 12, pid: 1, name: "12" },
+];
+
+const result1 = listToTree(arr); // [{"id":1,"pid":null,"name":"1","children":[{"id":11,"pid":1,"name":"11"},{"id":12,"pid":1,"name":"12"}]},{"id":2,"pid":"-1","name":"1"}]
+// console.log(result1);
