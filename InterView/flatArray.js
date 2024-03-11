@@ -17,24 +17,17 @@ let data = [
  * @return {Array} 返回一个数组，包含所有指定父节点下的子节点。
  */
 function recurrenceFilter(arr, parent) {
-  const out = [];
-  for (let node of arr) {
-    if (node.pid == parent) {
-      if (node.id == 7) {
-        debugger;
+  let result = [];
+  for (let item of arr) {
+    if (item.pid === parent) {
+      let res = recurrenceFilter(arr, item.id);
+      if (res.length) {
+        item.child = res;
       }
-
-      // 递归调用，为当前节点寻找子节点
-      var children = recurrenceFilter(arr, node.id);
-      // 如果存在子节点，则添加到当前节点的children属性中
-      if (children.length) {
-        node.children = children;
-      }
-
-      out.push(node); // 将符合条件的节点添加到输出数组中
+      result.push(item);
     }
   }
-  return out;
+  return result;
 }
 
 const result = recurrenceFilter(data, 0);
