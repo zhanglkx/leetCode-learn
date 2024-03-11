@@ -31,6 +31,21 @@ function recurrenceFilter(arr, parent) {
   return result;
 }
 
-const result = recurrenceFilter(data, 0);
+function listToTreeWithLevel(list, pid, level) {
+  let res = [];
+  for (const item of list) {
+    if (item.pid === pid) {
+      item.level = level;
+      let child = listToTreeWithLevel(list, item.id, level + 1);
+      if (child.length) {
+        item.child = child;
+      }
+      res.push(item);
+    }
+  }
+  return res;
+}
+
+const result = listToTreeWithLevel(data, 0, 0);
 
 console.log(result);
