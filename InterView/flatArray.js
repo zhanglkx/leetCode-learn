@@ -18,11 +18,12 @@ let data = [
  */
 function recurrenceFilter(arr, parent) {
   let result = [];
-  for (let item of arr) {
+  for (const item of arr) {
     if (item.pid === parent) {
-      let res = recurrenceFilter(arr, item.id);
-      if (res.length) {
-        item.child = res;
+      let childArray = recurrenceFilter(arr, item.id);
+
+      if (childArray.length) {
+        item.child = childArray;
       }
       result.push(item);
     }
