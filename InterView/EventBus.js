@@ -2,7 +2,11 @@ class EventEmitter {
   constructor() {
     this.events = {};
   }
-  //触发，传递参数
+  /**
+   * 触发事件（发布）
+   * @param {String} event  事件名称
+   * @param {...any} args  传入的参数，不限个数
+   */
   emit(event, ...args) {
     const cbs = this.events[event];
     // 因为下方off会将this.events[event]重新赋值为null，所以需要判断一下
@@ -20,7 +24,11 @@ class EventEmitter {
     return this;
   }
 
-  //监听，执行回调
+  /**
+   * 注册事件（订阅）
+   * @param {String} event  事件名称
+   * @param {Function} cb  回调函数
+   */
   on(event, cb) {
     //如果events里面没有事件监听，那么就初始化为一个数组
     //为什么是数组，因为一个事件可能有多个监听，你触发一次，多个监听都会执行
@@ -31,7 +39,11 @@ class EventEmitter {
     return this;
   }
 
-  //移除监听回调
+  /**
+   * 移除指定回调（取消订阅）
+   * @param {String} event  事件名称
+   * @param {Function} cb  回调函数
+   */
   off(event, cb) {
     if (!this.events[event]) {
       return;
@@ -71,12 +83,12 @@ const add = (...args) => console.log(args.reduce((p, c) => p + c, 0));
 //打印参数
 const log = (...args) => console.log(...args);
 
-// bus.on("add", add);
-// bus.on("log", log);
-// bus.emit("add", 1, 2); // 3
-// bus.emit("log", "hi"); // hi
-// bus.off("add");
-// bus.emit("add", 1, 2); // 打印为空，因为已经off掉了
+bus.on("add", add);
+bus.on("log", log);
+bus.emit("add", 1, 2); // 3
+bus.emit("log", "hi"); // hi
+bus.off("add");
+bus.emit("add", 1, 2); // 打印为空，因为已经off掉了
 bus.once("onceAdd", add); //监听一次
 bus.emit("onceAdd", 1, 2, 3, 4); //10
 bus.emit("onceAdd", 1, 2, 3, 4, 5); //打印为空，
