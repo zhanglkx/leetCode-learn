@@ -2,7 +2,7 @@
  * 时间戳解法
  * @returns  null
  */
-function throttle(fn, delay) {
+function throttle1(fn, delay) {
   let self, args;
   let previous = 0;
 
@@ -20,11 +20,32 @@ function throttle(fn, delay) {
     }
   };
 }
+/**
+ * 定时器方案
+ * @param {Function} fn 需要截流的函数
+ * @param {Number} delay 延迟时间
+ * @returns 回调函数
+ */
+function throttle(fn, delay) {
+  let timer;
+
+  return function () {
+    if (timer) {
+      return;
+    }
+
+    let self = this;
+    let args = arguments;
+    timer = setTimeout(function () {
+      fn.apply(self, args);
+      timer = null;
+    }, delay);
+  };
+}
 
 // 测试代码
 let a = throttle(logFun, 1000);
 function textFun(params) {
-  console.log(11);
   setInterval(() => {
     // console.log(22);
 
