@@ -57,8 +57,8 @@ class EventEmitter {
 
     let self = this;
     function _once(...args) {
-      cb.bind(self, ...args);
-      self.off(event, cb);
+      cb.call(self, ...args);
+      self.off(event, _once);
     }
 
     this.events[event].push(_once);
