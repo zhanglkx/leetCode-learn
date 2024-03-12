@@ -2,20 +2,38 @@
  * 时间戳解法
  * @returns  null
  */
-function throttle() {
-  let now = +new Date();
+function throttle(fn, delay) {
   let self, args;
+  let previous = 0;
 
-  return function (fn, delay) {
-    if (+new Date() - now < delay) {
-      return;
-    }
+  return function () {
+    let now = +new Date();
 
     self = this;
     args = arguments;
 
-    timer = setTimeout(function () {
+    if (now - previous > delay) {
+      previous = now;
+      console.log(previous, "=======", now, "----", now - previous, delay);
       fn.apply(self, args);
-    }, delay);
+      // previous = now;
+    }
   };
 }
+
+// 测试代码
+let a = throttle(logFun, 1000);
+function textFun(params) {
+  console.log(11);
+  setInterval(() => {
+    // console.log(22);
+
+    a();
+  }, 100);
+}
+
+function logFun(params) {
+  console.log("测试代码");
+}
+
+textFun();
