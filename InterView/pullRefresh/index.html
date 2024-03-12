@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下拉刷新，上拉加载</title>
+</head>
+
+<body>
+    <div id="warper" style="width: 100%;font-size: 100px;">
+        <div class="topbar">
+            Topbar
+        </div>
+        <div id="refresh">
+        </div>
+        <ul id="content">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+        </ul>
+        <div id="loading">
+            <p>加载中...</p>
+        </div>
+    </div>
+
+
+    <script>
+        var startWZ //记录鼠标点击的位置
+        var moveWZ	// 记录移动的位置
+        var distance // 记录移动的距离
+        var timer	// 定时器id
+        var rule = 100 // 定义触发加载刷新事件的拉伸长度
+        document.getElementById('content').addEventListener('touchstart', function (e) {
+            startWZ = e.touches[0].screenY - distance//获取每次点击的开始位置 减去上次剩余的距离
+        }, false)
+
+        document.getElementById('content').addEventListener('touchmove', function (e) {
+            moveWZ = e.touches[0].screenY //获取每次鼠标移动的位置
+            distance = Math.floor(moveWZ - startWZ) // 求出移动的距离
+            beforeAction(distance) //刷新和加载之前的UI处理
+            document.getElementById('content').style.transform = `translateY(${distance}px)` //元素同步鼠标移动
+        }, false)
+
+        document.getElementById('content').addEventListener('touchend', function (e) {
+            if (timer) clearInterval(timer) //防止多次拉动创建多个定时器
+            // 收缩处理
+            timer = setInterval(() => {
+                //  取整复位
+                if (Math.floor(distance) === 0 || Math.ceil(distance) === 0) {
+                    document.getElementById('content').style.transform = `translateY(0px)`
+                    clearInterval(timer) //收缩完成
+                } else {
+                    // 百分比收缩
+                    distance -= distance / 50
+                    document.getElementById('content').style.transform = `translateY(${distance}px)`
+                }
+            }, 10)
+            // 拉伸距离大于指定值才进行 刷新 加载事件
+            if (distance > rule) refresh()
+            if (distance < -rule) loading()
+        }, false)
+        // UI处理
+        function beforeAction(distance) {
+            if (distance > rule) {
+                var el = document.getElementById('refresh')
+                el.innerHTML = '<p>刷新中...</p>'
+                el.style.display = 'block'
+            } else {
+                document.getElementById('refresh').style.display = 'none'
+            }
+            if (distance < -rule) {
+                document.getElementById('loading').style.display = 'block'
+            } else {
+                document.getElementById('loading').style.display = 'none'
+            }
+        }
+        // 刷新逻辑在此处理
+        function refresh(callback) {
+            setTimeout(() => {
+                var el = document.getElementById('refresh')
+                el.innerHTML = '<p>刷新成功！</p>'
+                setTimeout(() => { el.style.display = 'none' }, 300)
+            }, 1000)
+        }
+        // 加载逻辑在此处理
+        function loading(callback) {
+            let li = document.createElement('li')
+            li.innerHTML = "我是新加载的元素"
+            setTimeout(() => {
+                document.getElementById('content').appendChild(li)
+                document.getElementById('loading').style.display = 'none'
+            }, 2000)
+        }
+    </script>
+
+
+</body>
+
+
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        list-style-type: none;
+    }
+
+    .topbar {
+        background-color: #7777;
+    }
+
+    #refresh,
+    #loading {
+        background-color: red;
+        font-size: 50px;
+        text-align: center;
+        height: 60px;
+        line-height: 60px;
+        display: none;
+    }
+</style>
+
+
+</html>
