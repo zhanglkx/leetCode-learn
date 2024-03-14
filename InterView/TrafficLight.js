@@ -20,13 +20,16 @@ function trafficLight(fn, timer) {
 function timer() {
   Promise.resolve()
     .then(() => {
-      return trafficLight(red, 3);
+      return trafficLight(red, 3000);
     })
     .then(() => {
-      return trafficLight(green, 2);
+      return trafficLight(green, 2000);
     })
     .then(() => {
-      return trafficLight(yellow, 1);
+      return trafficLight(yellow, 1000);
+    })
+    .then(() => {
+      timer();
     });
 }
 
