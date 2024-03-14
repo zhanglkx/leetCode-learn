@@ -14,16 +14,14 @@
     </div>
 
     <script>
-
-        let root = document.getElementById('root')
         let count = 1;
+        let container = document.getElementById('root');
 
         function getUserAction() {
-            root.innerHTML = count++
-            console.log(count);
-        }
+            container.innerHTML = count++;
+        };
 
-        root.onmousemove = getUserAction;
+        container.onmousemove = getUserAction;
 
     </script>
 
