@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>夸窗口通信B</title>
+</head>
+
+<body>
+
+    <div id="root">1</div>
+    <script>
+
+        let root = document.getElementById('root')
+
+        // 在页面B中
+        const channel = new BroadcastChannel('my_channel');
+
+        // 监听消息
+        channel.onmessage = event => {
+            console.log('Received message:', event.data);
+            root.innerHTML = event.data
+        };
+    </script>
+</body>
+
+</html>

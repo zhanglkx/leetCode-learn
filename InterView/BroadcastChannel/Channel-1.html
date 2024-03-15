@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>夸窗口通信A</title>
+</head>
+
+<body>
+
+    <button onclick="tapAction()">点击按钮</button>
+
+    <script>
+        // 在页面A中
+        const channel = new BroadcastChannel('my_channel');
+
+        function tapAction(params) {
+            alert('1')
+            // 发送消息到其他页面
+            channel.postMessage('Hello from Page A!');
+        }
+    </script>
+
+</body>
+
+</html>
