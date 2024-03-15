@@ -16,7 +16,6 @@
         const channel = new BroadcastChannel('my_channel');
 
         function tapAction(params) {
-            alert('1')
             // 发送消息到其他页面
             channel.postMessage('Hello from Page A!');
         }
